@@ -43,8 +43,8 @@ namespace Opm {
     
             data.aquiferID = aquctRecord.getItem("AQUIFER_ID").template get<int>(0);
             data.h = aquctRecord.getItem("THICKNESS_AQ").getSIDouble(0);
-            data.p0 = aquctRecord.getItem("P_INI").getSIDouble(0);
             data.p0_defaulted = aquctRecord.getItem("P_INI").defaultApplied(0);
+            data.p0 = (data.p0_defaulted)? 0.0 : aquctRecord.getItem("P_INI").getSIDouble(0);
             data.phi_aq = aquctRecord.getItem("PORO_AQ").getSIDouble(0);
             data.d0 = aquctRecord.getItem("DAT_DEPTH").getSIDouble(0);
             data.C_t = aquctRecord.getItem("C_T").getSIDouble(0);
