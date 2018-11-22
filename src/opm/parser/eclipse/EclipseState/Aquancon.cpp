@@ -72,7 +72,11 @@ namespace Opm {
             m_maxAquID = (m_maxAquID < m_aquiferID_per_record.at(aquanconRecordIdx) )?
                             m_aquiferID_per_record.at(aquanconRecordIdx) : m_maxAquID;
 
-            double influx_mult = aquanconRecord.getItem("INFLUX_MULT").getSIDouble(0);
+            std::cout << "Aquancon: " << __LINE__ << std::endl;
+            double influx_mult = (aquanconRecord.getItem("INFLUX_MULT").hasValue(0))?
+                                 aquanconRecord.getItem("INFLUX_MULT").getSIDouble(0) :
+                                 1.0;
+            std::cout << "Aquancon: " << __LINE__ << std::endl;
 
             FaceDir::DirEnum faceDir = FaceDir::FromString(aquanconRecord.getItem("FACE").getTrimmedString(0));
               
@@ -99,11 +103,13 @@ namespace Opm {
                 }
             }
 
-
+            std::cout << "Aquancon: " << __LINE__ << std::endl;
             m_aqurecord.at(aquanconRecordIdx).influx_mult_per_record.resize(global_index_per_record_size,influx_mult);
             m_aqurecord.at(aquanconRecordIdx).face_per_record.resize(global_index_per_record_size,faceDir);
             m_aqurecord.at(aquanconRecordIdx).record_index_per_record.resize(global_index_per_record_size,aquanconRecordIdx);
         }
+
+        std::cout << "Aquancon: " << __LINE__ << std::endl;
 
         // Collate_function
         collate_function(m_aquoutput, m_aqurecord, m_aquiferID_per_record, m_maxAquID);
@@ -125,6 +131,7 @@ namespace Opm {
             std::vector<int> result_id;
 
             convert_record_id_to_aquifer_id(result_id, i, m_aquiferID_per_record);
+            std::cout << "Aquancon: " << __LINE__ << std::endl;
 
             // We add the aquifer id into each element of output_vector
             output_vector.at(i - 1).aquiferID = i;
@@ -161,6 +168,7 @@ namespace Opm {
                                                              m_aqurecord.at(record_index_matching_id).record_index_per_record.end()
                                                            );  
             }
+            std::cout << "Aquancon: " << __LINE__ << std::endl;
         }
     }
 
@@ -248,7 +256,7 @@ namespace Opm {
             }
 
         }
- 
+        std::cout << "Aquancon: " << __LINE__ << std::endl;
         return output_vector;
     }
 
